@@ -12,6 +12,6 @@ public class Main
 	
     public static void main(String[] args) {
         logger.debug("Starting calculator");
-        logger.debug("Testing jenkins auto build");
+        logger.debug("Testing jenkins auto build #2");
     }
 }
