@@ -7,15 +7,14 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class Main 
-    extends TestCase
+public class MainTest extends TestCase
 {
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public Main( String testName )
+    public MainTest( String testName )
     {
         super( testName );
     }
@@ -25,7 +24,7 @@ public class Main
      */
     public static Test suite()
     {
-        return new TestSuite( Main.class );
+        return new TestSuite( MainTest.class );
     }
 
     /**
