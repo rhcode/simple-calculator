@@ -1,13 +1,17 @@
 package calculator;
 
+import org.apache.log4j.Logger;
+
 /**
  * Hello world!
  *
  */
 public class Main 
 {
+	final static Logger logger = Logger.getLogger(Main.class);
+	
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        logger.debug( "Hello World!" );
     }
 }
