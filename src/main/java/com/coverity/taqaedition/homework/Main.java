@@ -26,46 +26,22 @@ public class Main
         	System.out.println(message);
         	return;
         }
-        Solver solver = new Solver();
-        String errorMsg = "\nPlease check log for further details";
-        try {
-        	solver.populateOperandAndOperatorStack(input);
-        	int result = solver.performCalculation();
-        	System.out.println(result);
-        }
-        catch (UnknownOperationException exception) {
-        	System.out.println("Unknown operation provided" + errorMsg);
-        	logger.log(Level.ERROR, exception.getMessage());
-        }
-        catch (EmptyStackException exception) {
-        	String message = "Check the number of operands specified "
-        			+ "for each of your operations";
-        	System.out.println(message + errorMsg);
-        	logger.log(Level.ERROR, message, exception);
-        }
-        catch (ArithmeticException exception) {
-        	String message = "An error ocurred during calcuation";
-        	System.out.println(message + errorMsg);
-        	logger.log(Level.ERROR, exception);
-        }
-        catch (NumberFormatException exception) {
-        	String message = "Floating point operands may have been provided";
-        	System.out.println(message + errorMsg);
-        	logger.log(Level.ERROR, message, exception);
-        }
-        catch (Exception exception) {
-        	String message = "Unexpected exception has occurred";
-        	System.out.println(message + errorMsg);
-        	logger.log(Level.ERROR, message, exception);
-        }
-    }
+        callSolver(input);
+    }    
     
+    /**
+     * All the sanity checks on the user input go here
+     * @param input
+     * @return
+     */
     private static boolean sanityCheck(String input) {
     	if (input == null || input.trim().length() == 0) {
         	logger.error("No input provided");
         	return false;
         }
     	
+    	//Temporarily assign a random character value to prevChar. This gets changed 
+    	//after the first character is parsed
     	char curChar, prevChar = 'x';
     	int bracesCount = 0;
     	for (int i = 0; i < input.length(); i++) {
@@ -94,5 +70,44 @@ public class Main
     		return true;
     	else
     		return false;
+    }
+    
+    /**
+     * Creates a new Solver class instance and calls it to perform 
+     * calculation on the provided input. 
+     * @param input
+     */
+    private static void callSolver(String input) {
+    	Solver solver = new Solver();
+        String errorMsg = "\nPlease check log for further details";
+        try {
+        	int result = solver.solve(input);
+        	System.out.println(result);
+        }
+        catch (UnknownOperationException exception) {
+        	System.out.println("Unknown operation provided" + errorMsg);
+        	logger.log(Level.ERROR, exception.getMessage());
+        }
+        catch (EmptyStackException exception) {
+        	String message = "Check the operands specified "
+        			+ "for each of your operations";
+        	System.out.println(message + errorMsg);
+        	logger.log(Level.ERROR, message, exception);
+        }
+        catch (ArithmeticException exception) {
+        	String message = "An error ocurred during calculation";
+        	System.out.println(message + errorMsg);
+        	logger.log(Level.ERROR, exception);
+        }
+        catch (NumberFormatException exception) {
+        	String message = "Floating point or non-Integer operands provided";
+        	System.out.println(message + errorMsg);
+        	logger.log(Level.ERROR, message, exception);
+        }
+        catch (Exception exception) {
+        	String message = "Unexpected exception has occurred";
+        	System.out.println(message + errorMsg);
+        	logger.log(Level.ERROR, message, exception);
+        }
     }
 }

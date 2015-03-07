@@ -36,10 +36,36 @@ public class Solver {
 		tempStack = new Stack<Integer>();
 	}
 	
-	public void populateOperandAndOperatorStack (String input) 
+	/**
+	 * Convenience method that calls other methods to process input. 
+	 * Entry point method
+	 * @param input
+	 * @return
+	 * @throws UnknownOperationException
+	 * @throws EmptyStackException
+	 * @throws ArithmeticException
+	 * @throws NumberFormatException
+	 */
+	public int solve(String input)
+		throws UnknownOperationException, EmptyStackException, 
+		ArithmeticException, NumberFormatException {
+		
+		populateOperandAndOperatorStack(input);
+		return performCalculation();
+	}
+	
+	/**
+	 * Parses given input sequentially and loads all operators and
+	 * operands onto a stack
+	 * @param input
+	 * @throws UnknownOperationException
+	 */
+	private void populateOperandAndOperatorStack (String input) 
 		throws UnknownOperationException {
 		for (int i = 0; i < input.length();) {
 			char curChar = input.charAt(i);
+
+			//if the character is alphabetic, its an operator command
 			if (Character.isAlphabetic(curChar)) {
 				String command = getCommand(input.substring(i));
 				if (operations.contains(command) == false) {
@@ -48,17 +74,30 @@ public class Solver {
 				i += command.length();
 				tokenStack.add(command);
 			}
+			
+			//if the character is a digit, it has to be an operand
 			else if (Character.isDigit(curChar)) {
 				String number = getNumber(input.substring(i));
 				i += number.length();
 				tokenStack.add(number);
 			}
+			
+			//else it can be a brace "(" ")" or a comma ","
 			else 
 				i++;
 		}
 	}
 	
-	public int performCalculation() throws 
+	/**
+	 * Pops the tokenStack. Each time it encounters an operation on the tokenStack, 
+	 * it takes the last two popped numbers (which are on a temporary stack), performs 
+	 * the corresponding operation and pushes the result onto the temporary stack 
+	 * @return
+	 * @throws EmptyStackException
+	 * @throws ArithmeticException
+	 * @throws NumberFormatException
+	 */
+	private int performCalculation() throws 
 		EmptyStackException, ArithmeticException, NumberFormatException {
 		while (tokenStack.isEmpty() == false) {
 			String token = tokenStack.pop();			
@@ -84,14 +123,28 @@ public class Solver {
 				tempStack.push(operand);
 			}
 		}
+		if (tempStack.size() > 1)
+			throw new ArithmeticException("Unexpected number of operands provided");
 		return tempStack.pop();
 	}
 	
+	/**
+	 * Extracts a command from the input string
+	 * @param substr
+	 * @return
+	 */
 	private String getCommand(String substr) {
 		int indexOfOpeningBrace = substr.indexOf("(");
 		return substr.substring(0, indexOfOpeningBrace);
 	}
 	
+	/**
+	 * Extracts a number from the input string. 
+	 * It assumes a number to end either with a comma "," or a 
+	 * closing brace ")", whichever comes earlier
+	 * @param substr
+	 * @return
+	 */
 	private String getNumber(String substr) {
 		int indexOfComma = substr.indexOf(",");
 		int indexOfClosingBrace = substr.indexOf(")");
