@@ -18,14 +18,14 @@ public class Main
 	
     public static void main(String[] args) {
         logger.info("Starting calculator");        
-        String input = args[0];
-        logger.debug("The input received is : " + input);
-        boolean isInputCorrect = sanityCheck(input);
+        boolean isInputCorrect = sanityCheck(args);
         if (isInputCorrect == false) {
-        	String message = "Wrongly formatted input";
+        	String message = "No input or wrongly formatted input";
         	System.out.println(message);
         	return;
         }
+        String input = args[0];
+        logger.debug("The input received is : " + input);
         callSolver(input);
     }    
     
@@ -34,12 +34,12 @@ public class Main
      * @param input
      * @return
      */
-    private static boolean sanityCheck(String input) {
-    	if (input == null || input.trim().length() == 0) {
+    private static boolean sanityCheck(String[] args) {
+    	if (args == null || args.length == 0 || args[0].trim().length() == 0) {
         	logger.error("No input provided");
         	return false;
         }
-    	
+    	String input = args[0];
     	//Temporarily assign a random character value to prevChar. This gets changed 
     	//after the first character is parsed
     	char curChar, prevChar = 'x';
