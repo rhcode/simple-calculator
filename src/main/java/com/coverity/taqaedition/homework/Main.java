@@ -27,6 +27,7 @@ public class Main
         String input = args[0];
         logger.debug("The input received is : " + input);
         callSolver(input);
+        logger.info("Stopping calculator");
     }    
     
     /**
@@ -35,6 +36,7 @@ public class Main
      * @return
      */
     private static boolean sanityCheck(String[] args) {
+    	logger.info("Performing input sanity check");
     	if (args == null || args.length == 0 || args[0].trim().length() == 0) {
         	logger.error("No input provided");
         	return false;
@@ -78,6 +80,7 @@ public class Main
      * @param input
      */
     private static void callSolver(String input) {
+    	logger.info("Input seems okay. Performing calculation of input");
     	Solver solver = new Solver();
         String errorMsg = "\nPlease check log for further details";
         try {
