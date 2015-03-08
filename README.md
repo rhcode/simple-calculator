@@ -35,3 +35,9 @@ mvn package
 cd target/
 java -jar simple-calculator-1.0-SNAPSHOT-jar-with-dependencies.jar "add(2,2)"
 ```
+
+### Logging
+A log file giving details about debug and error messages gets created in the same directory as that of the jar file. 
+
+<br />
+Note - The let command has not been implemented in the calculator
