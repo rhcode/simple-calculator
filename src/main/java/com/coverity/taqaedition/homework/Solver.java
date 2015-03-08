@@ -62,12 +62,14 @@ public class Solver {
 	 */
 	private void populateOperandAndOperatorStack (String input) 
 		throws UnknownOperationException {
+		logger.info("Parsing input");
 		for (int i = 0; i < input.length();) {
 			char curChar = input.charAt(i);
 
 			//if the character is alphabetic, its an operator command
 			if (Character.isAlphabetic(curChar)) {
 				String command = getCommand(input.substring(i));
+				logger.debug("Processing command : " + command);
 				if (operations.contains(command) == false) {
 					throw new UnknownOperationException(command);
 				}
@@ -99,6 +101,7 @@ public class Solver {
 	 */
 	private int performCalculation() throws 
 		EmptyStackException, ArithmeticException, NumberFormatException {
+		logger.info("Calculating result");
 		while (tokenStack.isEmpty() == false) {
 			String token = tokenStack.pop();			
 			if (operations.contains(token)) {
